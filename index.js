@@ -55,7 +55,7 @@ app.listen(port, () =>
     console.log(`Server started on port ${port}`)
 )
 
-app.use('/static/', express.static(__dirname + '/src/server/images'))
+app.use('/static/', express.static(__dirname + '/src/images'))
 app.use('/auth', auth.router)
 app.use('/info', info)
 app.use('/votes', vote)
