@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const helmet = require('helmet')
 const sessions = require('express-session')
 const path = require('path')
 const bodyParser = require('body-parser')
@@ -11,10 +12,12 @@ const auth = require('./src/routes/authentication')
 const info = require('./src/routes/info')
 const oneDay = 1000*60*60*24;
 
-const port = process.env.PORT || 5000;
+// const port = process.env.PORT || 5000
+const port = 3000;
 
 const app = express()
 
+app.use(helmet());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(

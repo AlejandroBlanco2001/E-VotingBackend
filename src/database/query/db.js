@@ -1,4 +1,5 @@
 const pool = require('../conn/pool')
+const ethers = require("ethers");
 
 async function createPersona(tipoDocu, numeroDocu, nombre1, nombre2, apellido1, apellido2, fecha_nacimiento,
     lugar_nacimiento, direccion, telefono, rol, puestoVot) {
@@ -73,14 +74,21 @@ async function createEleccion(nombre, fechaInicio, fechaFin) {
     }
 }
 
+async function registerVote(candidatoCifrado){
+    var query = `UPDATE resultados SET resultados = resultados + 1 WHERE candidato='${candidatoCifrado}'`;
+    await pool.query(query)
+    return true
+}
+
 module.exports = {
-  searchUser,
-  createUser,
-  updateVoto,
-  createEleccion,
-  giveAllUsers,
-  createPersona,
-  giveAllCandidates,
-  giveAllPersonas,
-  getVote,
+    searchUser,
+    createUser,
+    updateVoto,
+    createEleccion,
+    giveAllUsers,
+    createPersona,
+    giveAllCandidates,
+    giveAllPersonas,
+    getVote,
+    registerVote,
 };

@@ -1,12 +1,12 @@
 const qrCode = require('qrcode')
-const { authenticator } = require('otplib')
-const { Router } = require('express');
 const db = require("../database/query/db.js");
-const Blockchain = require("../Blockchain/blockchain");
-const Block = require("../Blockchain/block");
 const tools = require("../../utils");
-let temp = false;
+const { Router } = require('express');
 const router = Router()
+const Block = require("../Blockchain/block");
+const { authenticator } = require('otplib')
+const Blockchain = require("../Blockchain/blockchain");
+let temp = false;
 
 var session;
 const chain = new Blockchain();
@@ -66,19 +66,20 @@ router.post('/login', async (req, res) => {
 })
 
 router.post("/checkVoteDB", async (req, res) => {
-    let { cedula } = req.body;
+    let { cedula, candidato } = req.body;
     let response = await db.getVote(cedula)
     if(response[1] == 1){
         if(response[0][0].yavoto == true){
-            res.send({status:"0"})
+            //await db.registerVote(candidato);
+            res.send({status:0})
             return
         }else{
             await db.updateVoto(cedula)
-            res.send({ status: "1" });
+            res.send({ status: 1 });
             return
         }
     }else{
-        res.send("2")
+        res.send({status: 2})
         return
     }
 });
