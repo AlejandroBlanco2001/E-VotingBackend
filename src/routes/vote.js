@@ -7,7 +7,6 @@ router.get('/stats', async (req,res) => {
     let votes = await db.getVotes()
     let candidatos_names = votes.map((item) => item.candidato)
     let voteCount = votes.map((item) => item.resultados);
-    console.log(voteCount);
     let data = {
       labels: candidatos_names,
       datasets: [
