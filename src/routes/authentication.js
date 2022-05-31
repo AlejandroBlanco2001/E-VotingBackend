@@ -1,15 +1,37 @@
 const qrCode = require('qrcode')
 const { authenticator } = require('otplib')
 const { Router } = require('express');
-const {chain} = require('../../index')
 const db = require("../database/query/db.js");
+const Blockchain = require("../Blockchain/blockchain");
+const Block = require("../Blockchain/block");
+const tools = require("../../utils");
+let temp = false;
 const router = Router()
 
 var session;
+const chain = new Blockchain();
+
+async function selectVoters() {
+    const voters = await db.giveAllPersonas();
+    let numberVoters = voters.rowCount;
+    let splitVoters = tools(voters.rows, 1000);
+    const maxBlocks = splitVoters.length;
+    for (let i = 0; i < maxBlocks; i++) {
+        let block = new Block({
+        nombre: `Puesto${i}`,
+        estado: `Disponible`,
+        });
+        block.addCedulas(splitVoters[i]);
+        await chain.addBlock(block);
+    }
+    return true
+}
+
+selectVoters()
 
 router.post('/create', async (req, res) => {
     const { username, password, cedula} = req.body
-    const secret     = authenticator.generateSecret()
+    const secret = authenticator.generateSecret()
     await db.createUser(username,cedula,password,secret);
     qrCode.toDataURL(authenticator.keyuri(username, "Vot-e", secret), (err, url) => {
         if (err) {
@@ -43,20 +65,42 @@ router.post('/login', async (req, res) => {
     }
 })
 
+router.post("/checkVoteDB", async (req, res) => {
+    let { cedula } = req.body;
+    let response = await db.getVote(cedula)
+    if(response[1] == 1){
+        if(response[0][0].yavoto == true){
+            res.send({status:"0"})
+            return
+        }else{
+            await db.updateVoto(cedula)
+            res.send({ status: "1" });
+            return
+        }
+    }else{
+        res.send("2")
+        return
+    }
+});
+
+
 router.post("/checkVote", async (req, res) => {
-    let {cedula} = req.body;
+    if (!temp) {
+        selectVoters();
+        temp = !temp;
+    }
+    let { cedula } = req.body;
     let list = chain.getBlocks();
     for (let block of list) {
         if (block.checkCedula(cedula)) {
-            return false;
+        res.send({ found: true });
+        return;
         }
     }
-    return true;
+    res.send({ found: false });
 });
 
 function getSession() {
     return session
 }
-
-
 module.exports = { router, getSession }

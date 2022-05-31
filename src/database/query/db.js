@@ -22,6 +22,22 @@ async function searchUser(username,password, cedula) {
     return [compare, result.rows[0].secret]
 }
 
+async function getVote(cedula){
+    var query = `SELECT yavoto FROM persona WHERE numerodocu = '${cedula}'`
+    var result = await pool.query(query)
+    if(result.rows.length == 0) return [false,0]
+    return [result.rows,1]
+}
+
+async function updateVoto(cedula){
+    var query = `UPDATE persona
+    SET yavoto = TRUE
+    WHERE   
+    numeroDocu = ${cedula}`; 
+    var result = await pool.query(query)
+    return true;
+}
+
 async function giveAllUsers(){
     return await pool.query("SELECT * FROM usuario")
 }
@@ -60,9 +76,11 @@ async function createEleccion(nombre, fechaInicio, fechaFin) {
 module.exports = {
   searchUser,
   createUser,
+  updateVoto,
   createEleccion,
   giveAllUsers,
   createPersona,
   giveAllCandidates,
   giveAllPersonas,
+  getVote,
 };

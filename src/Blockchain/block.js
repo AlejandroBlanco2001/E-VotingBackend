@@ -69,8 +69,19 @@ class Block{
         return this.cedulas.length;
     }
 
+    deleteCedula(cedula){
+        console.log("BORRADO")
+        for(let i = 0; i < this.cedulas[0].length; i++){
+            let item = this.cedulas[0][i]
+            if(item == cedula){
+                this.cedulas.splice(i,1)
+            }
+        }
+    }
+
     checkCedula(cedula){
-        return this.cedulas.includes(cedula)
+        console.log(this.cedulas)
+        return this.cedulas[0].includes(cedula)
     }
 }
 
