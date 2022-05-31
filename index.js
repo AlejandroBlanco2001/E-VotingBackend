@@ -12,7 +12,7 @@ const info = require('./src/routes/info')
 const oneDay = 1000*60*60*24;
 
 
-const port = 8000;
+const port = process.env.PORT || 5000;
 
 const app = express()
 
