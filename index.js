@@ -20,6 +20,7 @@ const app = express()
 app.use(
   helmet({
     crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: false,
   })
 );
 app.use(bodyParser.urlencoded({extended: true}));
