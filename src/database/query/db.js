@@ -27,7 +27,7 @@ async function giveAllUsers(){
 }
 
 async function giveAllCandidates() {
-    return await pool.query("SELECT nombre,partido,descripcion,imagen FROM candidato");
+    return await pool.query("SELECT nombre,partido,descripción,imagen FROM candidato");
 }
 
 async function createUser(username, numeroDocu, password, secret) {
