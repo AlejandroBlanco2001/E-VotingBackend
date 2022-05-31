@@ -26,6 +26,10 @@ async function giveAllUsers(){
     return await pool.query("SELECT * FROM usuario")
 }
 
+async function giveAllCandidates() {
+    return await pool.query("SELECT nombre,partido,descripcion,imagen FROM candidato");
+}
+
 async function createUser(username, numeroDocu, password, secret) {
     // eslint-disable-next-line no-multi-str
     var query = `INSERT INTO usuario VALUES ('${username}','${numeroDocu}','${password}','${secret}');`
@@ -55,4 +59,5 @@ module.exports = {
     createEleccion,
     giveAllUsers,
     createPersona,
-}
+    giveAllCandidates,
+};
