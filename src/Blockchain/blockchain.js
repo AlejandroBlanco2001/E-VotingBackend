@@ -54,6 +54,14 @@ class Blockchain{
             resolve(errors)
         })
     }
+
+    getBlocks(){
+        return this.chain;
+    }
+
+    getBlock(index){
+        return this.chain[index]
+    }
 }
 
 module.exports = Blockchain

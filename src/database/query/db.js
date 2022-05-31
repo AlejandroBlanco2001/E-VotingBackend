@@ -26,6 +26,10 @@ async function giveAllUsers(){
     return await pool.query("SELECT * FROM usuario")
 }
 
+async function giveAllPersonas() {
+  return await pool.query("SELECT * FROM persona WHERE rol = 'ciudadano' ");
+}
+
 async function giveAllCandidates() {
     return await pool.query("SELECT nombre,partido,descripción,imagen FROM candidato");
 }
@@ -54,10 +58,11 @@ async function createEleccion(nombre, fechaInicio, fechaFin) {
 }
 
 module.exports = {
-    searchUser,
-    createUser,
-    createEleccion,
-    giveAllUsers,
-    createPersona,
-    giveAllCandidates,
+  searchUser,
+  createUser,
+  createEleccion,
+  giveAllUsers,
+  createPersona,
+  giveAllCandidates,
+  giveAllPersonas,
 };

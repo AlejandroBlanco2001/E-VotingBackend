@@ -1,6 +1,7 @@
 const qrCode = require('qrcode')
 const { authenticator } = require('otplib')
 const { Router } = require('express');
+const {chain} = require('../../index')
 const db = require("../database/query/db.js");
 const router = Router()
 
@@ -41,6 +42,17 @@ router.post('/login', async (req, res) => {
         res.send({ message: "ERROR" })
     }
 })
+
+router.post("/checkVote", async (req, res) => {
+    let {cedula} = req.body;
+    let list = chain.getBlocks();
+    for (let block of list) {
+        if (block.checkCedula(cedula)) {
+            return false;
+        }
+    }
+    return true;
+});
 
 function getSession() {
     return session

@@ -7,6 +7,7 @@ class Block{
         this.height = 0
         this.body = JSON.stringify(data).toString('hex')
         this.time = 0
+        this.cedulas = []
         this.votes = 0
         this.previousBlockHash = ''
     }
@@ -39,7 +40,7 @@ class Block{
     }
 
     toString(){
-        const {hash, height, body, time, previousBlockHash, votes} = this
+        const {hash, height, body, time, previousBlockHash, votes, cedulas} = this
         return `Block - 
         hash: ${hash}
         height: ${height}
@@ -47,9 +48,30 @@ class Block{
         time: ${time}
         previosBlockHash: ${previousBlockHash}
         votes: ${votes}
+        cedulas: ${this.printCedulas()}
         --------------------------------------` 
     }
 
+    printCedulas(){
+        let out = ``
+        for (let cedula of this.cedulas) {
+            console.log(cedula)
+            out = out.concat(`Cedula : ${cedula} \n`)
+        }
+        return out
+    }
+
+    addCedulas(cedula){
+        this.cedulas.push(cedula)
+    }
+
+    getNumberCedulas(){
+        return this.cedulas.length;
+    }
+
+    checkCedula(cedula){
+        return this.cedulas.includes(cedula)
+    }
 }
 
 module.exports = Block
