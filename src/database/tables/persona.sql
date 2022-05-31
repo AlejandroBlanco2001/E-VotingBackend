@@ -9,8 +9,9 @@ CREATE TABLE persona (
     lugar_nacimiento varchar(50) NOT NULL,
     direccion varchar(50) NOT NULL,
     telefono varchar(50) NOT NULL,
-    rol varchar(50) NOT NULL CHECK(rol IN('admin', 'candidato', 'ciudadano')),
+    rol varchar(50) NOT NULL CHECK(rol IN('admin', 'ciudadano')),
     puestoVot SERIAL,
+    yaVoto BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (numeroDocu),
     FOREIGN KEY (puestoVot) REFERENCES puesto(id)
 );
@@ -72,6 +73,19 @@ VALUES
         '123458',
         'ciudadano',
         2
+    ),(
+        'pasaporte',
+        123459,
+        'Jose',
+        'Perez',
+        'Perez',
+        'Sanchez',
+        '1997-02-02',
+        'Barranquilla',
+        'Calle 123',
+        '123459',
+        'ciudadano',
+        2
     );
 
 INSERT INTO
@@ -89,19 +103,6 @@ INSERT INTO
         rol
     )
 VALUES
-    (
-        'pasaporte',
-        123459,
-        'Jose',
-        'Perez',
-        'Perez',
-        'Sanchez',
-        '1997-02-02',
-        'Barranquilla',
-        'Calle 123',
-        '123459',
-        'candidato'
-    ),
     (
         'cedula',
         123460,

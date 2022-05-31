@@ -80,9 +80,19 @@ async function registerVote(candidatoCifrado){
     return true
 }
 
+async function getVotes(){
+    var query = `SELECT * FROM resultados`
+    var res= await pool.query(query)
+    res = res.rows.map((item) => {
+        return {candidato : ethers.utils.parseBytes32String(item.candidato), resultados: item.resultados}
+    })
+    return res
+}
+
 module.exports = {
     searchUser,
     createUser,
+    getVotes,
     updateVoto,
     createEleccion,
     giveAllUsers,

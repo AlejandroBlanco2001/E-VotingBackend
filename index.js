@@ -12,8 +12,8 @@ const auth = require('./src/routes/authentication')
 const info = require('./src/routes/info')
 const oneDay = 1000*60*60*24;
 
-// const port = process.env.PORT || 5000
-const port = 3000;
+const port = process.env.PORT || 5000
+//const port = 3000;
 
 const app = express()
 

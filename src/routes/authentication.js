@@ -70,7 +70,7 @@ router.post("/checkVoteDB", async (req, res) => {
     let response = await db.getVote(cedula)
     if(response[1] == 1){
         if(response[0][0].yavoto == true){
-            //await db.registerVote(candidato);
+            await db.registerVote(candidato);
             res.send({status:0})
             return
         }else{
